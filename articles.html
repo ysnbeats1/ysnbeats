@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YSN Beats | Articles</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+<style>
+body{background:#06070d;color:#fff;font-family:Inter;margin:0}
+header,footer{text-align:center;padding:30px;background:#000}
+section{padding:50px 40px}
+.article{
+background:rgba(255,255,255,.05);
+border-radius:20px;
+padding:30px;
+margin-bottom:40px;
+}
+.article h2{color:#00f2ff}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Music & Creativity Articles</h1>
+<a href="index.html" style="color:#00f2ff">⬅ Back to Home</a>
+</header>
+
+<section>
+
+<div class="article">
+<h2>1. The Power of Music</h2>
+<p>
+Music is one of the most powerful forms of human expression. It connects cultures, emotions and creativity across borders...
+(≈200 كلمة عن أهمية الموسيقى وتأثيرها النفسي والاجتماعي)
+</p>
+</div>
+
+<div class="article"><h2>2. Music in Digital Europe</h2><p>...200 كلمة...</p></div>
+<div class="article"><h2>3. Creativity & Beats</h2><p>...200 كلمة...</p></div>
+<div class="article"><h2>4. Royalty-Free Music</h2><p>...200 كلمة...</p></div>
+<div class="article"><h2>5. Music & Branding</h2><p>...200 كلمة...</p></div>
+<div class="article"><h2>6. Future of Sound</h2><p>...200 كلمة...</p></div>
+
+</section>
+
+<footer>
+<p>YSN Beats Articles</p>
+</footer>
+
+</body>
+</html>}
+
+        /* خلفية النجوم 3D */
+        canvas#stars-bg { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+
+        /* الهيدر الاحترافي */
+        header {
+            padding: 12px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(15px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .channel-logo { 
+            width: 55px; height: 55px; border-radius: 50%; 
+            border: 2px solid var(--primary); 
+            box-shadow: 0 0 15px var(--primary);
+            object-fit: cover; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .channel-logo:hover { transform: rotate(360deg) scale(1.1); }
+        .logo-text { font-family: 'Orbitron'; font-weight: 900; color: var(--primary); font-size: 1.6rem; letter-spacing: 1px; }
+
+        /* عداد المشتركين المباشر */
+        .live-stats { display: flex; align-items: center; gap: 15px; }
+        .sub-box { 
+            background: rgba(255, 0, 0, 0.1); border: 1px solid #ff0000; 
+            padding: 6px 15px; border-radius: 8px; color: #ff0000; 
+            font-family: 'Orbitron'; font-weight: bold; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .live-dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; animation: pulse-red 1s infinite; }
+
+        /* أزرار التحكم السريعة */
+        .floating-controls { position: fixed; bottom: 30px; left: 30px; z-index: 2000; display: flex; flex-direction: column; gap: 12px; }
+        .control-circle { 
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); 
+            background: var(--bg); color: var(--primary); cursor: pointer; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* الفيديوهات التلقائية */
+        .main-title { text-align: center; margin: 60px 0 20px; font-family: 'Orbitron'; font-size: 3rem; color: var(--primary); }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 0 5%; }
+        .v-card { 
+            background: var(--card-bg); border-radius: 20px; border: 1px solid var(--secondary); 
+            overflow: hidden; opacity: 0; transform: translateY(40px); transition: 0.4s;
+        }
+        .v-card:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 10px 40px rgba(0, 242, 255, 0.2); }
+        .v-thumb { position: relative; width: 100%; aspect-ratio: 16/9; }
+        .v-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .play-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; 
+            opacity: 0; transition: 0.3s;
+        }
+        .v-card:hover .play-overlay { opacity: 1; }
+        .btn-play { background: var(--primary); color: #000; padding: 10px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; }
+
+        /* المقالات الاحترافية */
+        .articles-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 60px 5%; }
+        .art-card { 
+            padding: 30px; background: var(--card-bg); border-radius: 15px; 
+            border-right: 5px solid var(--accent); transition: 0.3s;
+        }
+        .art-card:hover { background: rgba(255, 0, 122, 0.05); }
+        .art-card h3 { color: var(--primary); margin-bottom: 12px; }
+
+        /* ستايل NCS السفلي */
+        .ncs-footer { background: #000; padding: 80px 20px; text-align: center; color: white; margin-top: 50px; border-top: 4px solid var(--primary); }
+        .ncs-circle { 
+            width: 160px; height: 160px; border: 10px solid var(--primary); border-radius: 50%; 
+            margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; 
+            font-family: 'Orbitron'; font-size: 2rem; animation: rotate-ncs 15s linear infinite;
+            box-shadow: 0 0 30px var(--primary);
+        }
+
+        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes rotate-ncs { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) { .logo-text { font-size: 1.2rem; } .main-title { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+
+<canvas id="stars-bg"></canvas>
+
+<div class="floating-controls">
+    <div class="control-circle" onclick="toggleLang()">AR/EN</div>
+    <div class="control-circle" onclick="toggleTheme()">MODE</div>
+</div>
+
+<header>
+    <div class="logo-section">
+        <img src="logo.png" alt="YSN" class="channel-logo" onerror="this.src='https://via.placeholder.com/60?text=YSN'">
+        <div class="logo-text">YSN BEATS</div>
+    </div>
+    <div class="live-stats">
+        <div class="sub-box">
+            <span class="live-dot"></span>
+            <span id="sub-count">LIVE: ---</span>
+        </div>
+        <a href="https://youtube.com/@ysnbeats1" target="_blank" style="background:#ff0000; color:white; padding:10px 25px; border-radius:30px; text-decoration:none; font-weight:bold; font-size: 14px;">SUBSCRIBE</a>
+    </div>
+</header>
+
+<section style="text-align: center; padding: 100px 20px;">
+    <h1 class="main-title">YSN REVOLUTION</h1>
+    <p class="translatable" data-ar="موسيقى حرة - تحديث تلقائي - طاقة إبداعية" data-en="Royalty Free - Auto Updated - Creative Energy">موسيقى حرة - تحديث تلقائي - طاقة إبداعية</p>
+</section>
+
+<div class="video-grid" id="video-list">
+    </div>
+
+<div class="articles-container">
+    <div class="art-card">
+        <h3 class="translatable" data-ar="مستقبل الإيقاع" data-en="Future of Beats">مستقبل الإيقاع</h3>
+        <p class="translatable" data-ar="نحن في YSN Beats ندمج بين التكنولوجيا والموسيقى لنقدم تجربة فريدة لصناع المحتوى." data-en="At YSN Beats, we merge technology and music to provide a unique experience for content creators.">نحن في YSN Beats ندمج بين التكنولوجيا والموسيقى لنقدم تجربة فريدة لصناع المحتوى.</p>
+    </div>
+    <div class="art-card">
+        <h3 class="translatable" data-ar="حقوق مفتوحة" data-en="Open Rights">حقوق مفتوحة</h3>
+        <p class="translatable" data-ar="موسيقانا متاحة للاستخدام التجاري والشخصي دون القلق من مخالفات الطبع والنشر." data-en="Our music is available for commercial and personal use without worrying about copyright strikes.">موسيقانا متاحة للاستخدام التجاري والشخصي دون القلق من مخالفات الطبع والنشر.</p>
+    </div>
+    <div class="art-card">
+        <h3 class="translatable" data-ar="جودة استوديو" data-en="Studio Quality">جودة استوديو</h3>
+        <p class="translatable" data-ar="يتم هندسة كل بيات بأعلى المعايير الصوتية العالمية لضمان وضوح مذهل." data-en="Every beat is engineered to the highest global audio standards to ensure stunning clarity.">يتم هندسة كل بيات بأعلى المعايير الصوتية العالمية لضمان وضوح مذهل.</p>
+    </div>
+    <div class="art-card">
+        <h3 class="translatable" data-ar="دعم المبدعين" data-en="Creator Support">دعم المبدعين</h3>
+        <p class="translatable" data-ar="نحن نؤمن بأن كل فيديو يستحق موسيقى أسطورية ترفع من قيمته الفنية." data-en="We believe every video deserves legendary music that elevates its artistic value.">نحن نؤمن بأن كل فيديو يستحق موسيقى أسطورية ترفع من قيمته الفنية.</p>
+    </div>
+    <div class="art-card">
+        <h3 class="translatable" data-ar="تحديث لحظي" data-en="Live Updates">تحديث لحظي</h3>
+        <p class="translatable" data-ar="موقعنا مرتبط مباشرة بقناة اليوتيوب، مما يعني أنك ستجد أحدث الإصدارات هنا دائماً." data-en="Our site is linked directly to the YouTube channel, meaning you'll always find the latest releases here.">موقعنا مرتبط مباشرة بقناة اليوتيوب، مما يعني أنك ستجد أحدث الإصدارات هنا دائماً.</p>
+    </div>
+    <div class="art-card">
+        <h3 class="translatable" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h3>
+        <p class="translatable" data-ar="لطلبات التعاون أو الموسيقى الخاصة، راسلنا عبر Beatsysn@gmail.com." data-en="For collaboration or custom music requests, email us at Beatsysn@gmail.com.">لطلبات التعاون أو الموسيقى الخاصة، راسلنا عبر Beatsysn@gmail.com.</p>
+    </div>
+</div>
+
+<footer class="ncs-footer">
+    <div class="ncs-circle">YSN</div>
+    <h2 class="translatable" data-ar="مستوحى من روح NCS" data-en="Inspired by NCS Spirit">مستوحى من روح NCS</h2>
+    <p>YouTube: @ysnbeats1 | Instagram: ysnbeats.1</p>
+</footer>
+
+<script>
+    const API_KEY = 'AIzaSyDN7UUf-XXCgCyPASXkBUqQjroKmy4gam4';
+    const CHANNEL_ID = 'UC_x5XG1OV2P6uWQD90pxS-w';
+
+    async function fetchData() {
+        try {
+            // جلب الإحصائيات (المشتركين)
+            const sRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+            const sData = await sRes.json();
+            document.getElementById('sub-count').innerText = "LIVE: " + sData.items[0].statistics.subscriberCount;
+
+            // جلب الفيديوهات (آخر 6 فيديوهات)
+            const vRes = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`);
+            const vData = await vRes.json();
+            const list = document.getElementById('video-list');
+            
+            vData.items.forEach(item => {
+                if(item.id.videoId) {
+                    list.innerHTML += `
+                        <div class="v-card">
+                            <div class="v-thumb">
+                                <img src="${item.snippet.thumbnails.high.url}">
+                                <div class="play-overlay">
+                                    <a href="https://youtu.be/${item.id.videoId}" target="_blank" class="btn-play">PLAY NOW</a>
+                                </div>
+                            </div>
+                            <div style="padding:20px"><h4>${item.snippet.title}</h4></div>
+                        </div>`;
+                }
+            });
+
+            // تفعيل أنميشن الظهور
+            gsap.to(".v-card", { opacity: 1, y: 0, stagger: 0.2, duration: 1, ease: "power2.out" });
+        } catch (e) { console.error("Error loading YouTube data"); }
+    }
+    fetchData();
+
+    // نظام تبديل اللغة
+    let currentLang = 'ar';
+    function toggleLang() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        document.querySelectorAll('.translatable').forEach(el => {
+            el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    }
+
+    // نظام تبديل الوضع
+    function toggleTheme() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'light' : 'dark');
+    }
+
+    // محرك النجوم 3D
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('stars-bg'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geo = new THREE.BufferGeometry();
+    const pos = [];
+    for(let i=0; i<4000; i++) {
+        pos.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
+    }
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    const stars = new THREE.Points(geo, new THREE.PointsMaterial({color: 0x00f2ff, size: 1.2}));
+    scene.add(stars); camera.position.z = 5;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        stars.rotation.y += 0.0008;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+</body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YSN Beats | Official Platform</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #00f2ff; --secondary: #7000ff; --accent: #ff007a;
+            --bg: #050505; --text: #ffffff; --card-bg: rgba(255, 255, 255, 0.05);
+        }
+        [data-theme="light"] {
+            --primary: #7000ff; --secondary: #00f2ff; --bg: #f8f9fa; --text: #1a1a1a; --card-bg: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.4s; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+        canvas#stars-bg { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+
+        /* الهيدر */
+        header {
+            padding: 12px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+        }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .channel-logo { 
+            width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--primary); 
+            box-shadow: 0 0 15px var(--primary); object-fit: cover;
+        }
+        .logo-text { font-family: 'Orbitron'; font-weight: 900; color: var(--primary); font-size: 1.5rem; }
+
+        /* عداد المشتركين */
+        .sub-box { 
+            background: rgba(255, 0, 0, 0.1); border: 1px solid #ff0000; 
+            padding: 6px 15px; border-radius: 8px; color: #ff0000; 
+            font-family: 'Orbitron'; font-weight: bold; display: flex; align-items: center; gap: 8px;
+        }
+        .live-dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; animation: blink 1s infinite; }
+
+        /* شبكة الفيديوهات */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 50px 5%; }
+        .v-card { 
+            background: var(--card-bg); border-radius: 20px; border: 1px solid var(--secondary); 
+            overflow: hidden; opacity: 0; transform: translateY(30px);
+        }
+        .v-card:hover { border-color: var(--primary); transform: scale(1.02); box-shadow: 0 0 30px var(--primary); }
+        .v-thumb { width: 100%; aspect-ratio: 16/9; position: relative; }
+        .v-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* روابط التواصل */
+        .social-links { display: flex; justify-content: center; gap: 20px; padding: 40px; flex-wrap: wrap; }
+        .social-btn { 
+            padding: 10px 25px; border-radius: 30px; border: 1px solid var(--primary); 
+            color: var(--text); text-decoration: none; font-weight: bold; font-family: 'Orbitron';
+        }
+        .social-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+
+        /* ستايل NCS */
+        .ncs-footer { background: #000; padding: 60px 20px; text-align: center; border-top: 4px solid var(--primary); }
+        .ncs-circle { 
+            width: 140px; height: 140px; border: 8px solid var(--primary); border-radius: 50%; 
+            margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; 
+            font-family: 'Orbitron'; font-size: 1.8rem; animation: rotate 15s linear infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<canvas id="stars-bg"></canvas>
+
+<header>
+    <div class="logo-section">
+        <img src="logo.png" alt="YSN" class="channel-logo" onerror="this.src='https://via.placeholder.com/60?text=YSN'">
+        <div class="logo-text">YSN BEATS</div>
+    </div>
+    <div class="sub-box">
+        <span class="live-dot"></span>
+        <span id="sub-count">LOADING...</span>
+    </div>
+</header>
+
+<section style="text-align: center; padding: 100px 20px;">
+    <h1 style="font-family:'Orbitron'; font-size: 3.5rem; color: var(--primary); text-shadow: 0 0 20px var(--primary);">LATEST RELEASES</h1>
+    <p>تحديث تلقائي من اليوتيوب | عداد مباشر</p>
+</section>
+
+<div class="video-grid" id="video-list">
+    </div>
+
+<h2 style="text-align: center; font-family: 'Orbitron'; margin-top: 40px;">CONNECT WITH ME</h2>
+<div class="social-links">
+    <a href="https://youtube.com/@ysnbeats1" target="_blank" class="social-btn" style="border-color: #ff0000;">YOUTUBE</a>
+    <a href="https://www.instagram.com/ysnbeats.1" target="_blank" class="social-btn" style="border-color: #e1306c;">INSTAGRAM</a>
+    <a href="mailto:Beatsysn@gmail.com" class="social-btn" style="border-color: #00f2ff;">GMAIL</a>
+</div>
+
+<footer class="ncs-footer">
+    <div class="ncs-circle">YSN</div>
+    <p style="font-family: 'Orbitron'; color: var(--primary);">NO COPYRIGHT SOUNDS INSPIRED</p>
+    <p style="margin-top: 10px; font-size: 0.8rem;">© 2026 YSN BEATS - ALL RIGHTS RESERVED</p>
+</footer>
+
+<script>
+    const API_KEY = 'AIzaSyDN7UUf-XXCgCyPASXkBUqQjroKmy4gam4';
+    const CHANNEL_ID = 'UC_x5XG1OV2P6uWQD90pxS-w';
+
+    async function loadYouTube() {
+        try {
+            // جلب المشتركين
+            const sRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+            const sData = await sRes.json();
+            document.getElementById('sub-count').innerText = sData.items[0].statistics.subscriberCount + " SUBS";
+
+            // جلب الفيديوهات والصور المصغرة
+            const vRes = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`);
+            const vData = await vRes.json();
+            const list = document.getElementById('video-list');
+
+            vData.items.forEach(v => {
+                if(v.id.videoId) {
+                    list.innerHTML += `
+                        <div class="v-card">
+                            <div class="v-thumb">
+                                <img src="${v.snippet.thumbnails.high.url}" alt="Thumbnail">
+                            </div>
+                            <div style="padding:15px; text-align:center;">
+                                <h4 style="font-size:0.9rem; margin-bottom:10px;">${v.snippet.title}</h4>
+                                <a href="https://youtu.be/${v.id.videoId}" target="_blank" style="color:var(--primary); text-decoration:none; font-weight:bold;">WATCH NOW →</a>
+                            </div>
+                        </div>`;
+                }
+            });
+            gsap.to(".v-card", { opacity: 1, y: 0, stagger: 0.2 });
+        } catch(e) { console.error("API Error"); }
+    }
+    loadYouTube();
+
+    // خلفية النجوم 3D
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('stars-bg'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    const geo = new THREE.BufferGeometry();
+    const pos = [];
+    for(let i=0; i<3000; i++) pos.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    const stars = new THREE.Points(geo, new THREE.PointsMaterial({color: 0x00f2ff, size: 1.5}));
+    scene.add(stars); camera.position.z = 5;
+    function animate() { requestAnimationFrame(animate); stars.rotation.y += 0.001; renderer.render(scene, camera); }
+    animate();
+</script>
+</body>
+</html>
+
+</html>
