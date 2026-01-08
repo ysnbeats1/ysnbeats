@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YSN BEATS – Modern Music Platform</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;900&display=swap" rel="stylesheet">
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+/* ================= ROOT ================= */
+:root{
+--bg:#05060a;
+--bg-soft:#0b0e17;
+--text:#ffffff;
+--muted:#b5b9d6;
+--primary:#00f2ff;
+--secondary:#6a00ff;
+--accent:#ff2a6d;
+--glass:rgba(255,255,255,0.06);
+}
+
+[data-theme="light"]{
+--bg:#f4f6fb;
+--bg-soft:#ffffff;
+--text:#111;
+--muted:#555;
+--glass:#ffffff;
+}
+
+/* ================= GLOBAL ================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(180deg,var(--bg),#02030a);
+color:var(--text);
+overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+inset:0;
+z-index:-1;
+}
+
+/* ================= HEADER ================= */
+header{
+position:sticky;
+top:0;
+z-index:1000;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 60px;
+background:rgba(5,6,10,.75);
+backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.brand img{
+width:52px;
+height:52px;
+border-radius:50%;
+box-shadow:0 0 25px var(--primary);
+}
+
+.brand span{
+font-family:'Orbitron';
+font-weight:900;
+letter-spacing:2px;
+font-size:1.4rem;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+color:transparent;
+}
+
+nav{
+display:flex;
+gap:25px;
+}
+
+nav a{
+color:var(--muted);
+text-decoration:none;
+font-size:14px;
+position:relative;
+}
+
+nav a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-6px;
+width:0;
+height:2px;
+background:var(--primary);
+transition:.4s;
+}
+
+nav a:hover{
+color:var(--text);
+}
+
+nav a:hover::after{
+width:100%;
+}
+
+/* ================= ACTIONS ================= */
+.actions{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.sub-counter{
+padding:8px 18px;
+border-radius:30px;
+background:linear-gradient(135deg,#ff0000,#ff4d4d);
+font-weight:700;
+font-size:13px;
+box-shadow:0 0 25px rgba(255,0,0,.6);
+}
+
+.subscribe{
+padding:10px 26px;
+border-radius:30px;
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+color:#000;
+font-weight:800;
+text-decoration:none;
+}
+
+/* ================= FLOAT CONTROLS ================= */
+.controls{
+position:fixed;
+right:20px;
+top:50%;
+transform:translateY(-50%);
+z-index:2000;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.controls button{
+width:48px;
+height:48px;
+border-radius:50%;
+border:none;
+cursor:pointer;
+background:var(--glass);
+color:var(--text);
+backdrop-filter:blur(10px);
+box-shadow:0 0 18px rgba(0,242,255,.3);
+}
+
+/* ================= HERO ================= */
+.hero{
+min-height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:120px 20px;
+}
+
+.hero h1{
+font-size:3.6rem;
+font-weight:800;
+max-width:900px;
+line-height:1.1;
+background:linear-gradient(90deg,var(--primary),var(--accent));
+-webkit-background-clip:text;
+color:transparent;
+animation:fadeUp 1.2s ease;
+}
+
+.hero p{
+margin-top:25px;
+font-size:1.1rem;
+color:var(--muted);
+max-width:650px;
+animation:fadeUp 1.6s ease;
+}
+
+/* ================= STATS ================= */
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+padding:80px 60px;
+}
+
+.stat{
+background:var(--glass);
+border-radius:24px;
+padding:40px 30px;
+text-align:center;
+backdrop-filter:blur(14px);
+transition:.4s;
+}
+
+.stat:hover{
+transform:translateY(-10px);
+box-shadow:0 0 40px rgba(0,242,255,.25);
+}
+
+.stat h2{
+font-size:2.2rem;
+font-family:'Orbitron';
+color:var(--primary);
+}
+
+.stat span{
+font-size:13px;
+color:var(--muted);
+}
+
+/* ================= VIDEOS ================= */
+.section-title{
+text-align:center;
+font-size:2.4rem;
+font-weight:800;
+margin:100px 0 40px;
+}
+
+.videos{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:35px;
+padding:0 60px;
+}
+
+.video{
+border-radius:26px;
+overflow:hidden;
+background:var(--glass);
+transition:.4s;
+}
+
+.video:hover{
+transform:scale(1.03);
+box-shadow:0 0 45px rgba(106,0,255,.4);
+}
+
+.video img{
+width:100%;
+aspect-ratio:16/9;
+object-fit:cover;
+}
+
+.video h3{
+padding:22px;
+font-size:15px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+margin-top:120px;
+padding:100px 20px;
+background:#000;
+text-align:center;
+}
+
+footer .logo-ring{
+width:140px;
+height:140px;
+border-radius:50%;
+border:7px solid var(--primary);
+margin:0 auto 30px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Orbitron';
+font-size:1.7rem;
+animation:spin 14s linear infinite;
+box-shadow:0 0 40px var(--primary);
+}
+
+footer p{
+color:var(--muted);
+font-size:14px;
+}
+
+/* ================= ANIM ================= */
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:none}
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px){
+header{padding:15px 20px}
+nav{display:none}
+.hero h1{font-size:2.4rem}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="controls">
+<button onclick="toggleTheme()">🌓</button>
+<button onclick="toggleLang()">EN/AR</button>
+</div>
+
+<header>
+<div class="brand">
+<img src="9778.png">
+<span>YSN BEATS</span>
+</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Beats</a>
+<a href="#">Videos</a>
+<a href="#">Contact</a>
+</nav>
+
+<div class="actions">
+<div id="subs" class="sub-counter">Loading…</div>
+<a class="subscribe" href="https://youtube.com/@ysnbeats1" target="_blank">Subscribe</a>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1 class="tr" data-en="Next-Gen Music & Royalty-Free Beats Platform"
+data-ar="منصة موسيقى وبييتس بدون حقوق – الجيل القادم">
+Next-Gen Music & Royalty-Free Beats Platform
+</h1>
+<p class="tr"
+data-en="European-focused sound design, modern beats and futuristic creativity."
+data-ar="تصميم صوتي عصري، بييتس حديثة، وإبداع مستقبلي موجه للعالم.">
+European-focused sound design, modern beats and futuristic creativity.
+</p>
+</div>
+</section>
+
+<section class="stats">
+<div class="stat"><h2 id="countSubs">0</h2><span>Subscribers</span></div>
+<div class="stat"><h2>100+</h2><span>Royalty-Free Beats</span></div>
+<div class="stat"><h2>24/7</h2><span>Creative Energy</span></div>
+</section>
+
+<h2 class="section-title">Latest Videos</h2>
+<div id="videos" class="videos"></div>
+
+<footer>
+<div class="logo-ring">YSN</div>
+<p>YouTube · Instagram · Digital Music Brand</p>
+<p style="color:var(--primary)">beatsysn@gmail.com</p>
+</footer>
+
+<script>
+/* ================= CONFIG ================= */
+const API_KEY="AIzaSyDN7UUf-XXCgCyPASXkBUqQjroKmy4gam4";
+const CHANNEL_ID="UCLHqTSpOB5fw4-EFr9Re4_Q";
+
+/* ================= YOUTUBE ================= */
+async function loadYT(){
+try{
+const r=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+const d=await r.json();
+const subs=d.items[0].statistics.subscriberCount;
+animateCounter(subs);
+
+const v=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&maxResults=6&key=${API_KEY}`);
+const vd=await v.json();
+vd.items.forEach(i=>{
+if(i.id.videoId){
+videos.innerHTML+=`
+<div class="video">
+<img src="${i.snippet.thumbnails.high.url}">
+<h3>${i.snippet.title}</h3>
+</div>`;
+}
+});
+}catch(e){
+document.getElementById("subs").innerText="—";
+}
+}
+loadYT();
+
+/* ================= COUNTER ================= */
+function animateCounter(val){
+let c=0;
+const el=document.getElementById("countSubs");
+const top=document.getElementById("subs");
+const step=Math.ceil(val/120);
+const i=setInterval(()=>{
+c+=step;
+if(c>=val){c=val;clearInterval(i);}
+el.innerText=c;
+top.innerText=c+" SUBS";
+},20);
+}
+
+/* ================= LANG ================= */
+let lang="en";
+function toggleLang(){
+lang=lang==="en"?"ar":"en";
+document.querySelectorAll(".tr").forEach(e=>{
+e.innerText=e.dataset[lang];
+});
+document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+}
+
+/* ================= THEME ================= */
+function toggleTheme(){
+document.documentElement.dataset.theme=
+document.documentElement.dataset.theme==="dark"?"light":"dark";
+}
+
+/* ================= STARS ================= */
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,1,2000);
+const renderer=new THREE.WebGLRenderer({canvas:bg,alpha:true});
+renderer.setSize(innerWidth,innerHeight);
+const geo=new THREE.BufferGeometry();
+const p=[];
+for(let i=0;i<5000;i++){
+p.push(
+THREE.MathUtils.randFloatSpread(3000),
+THREE.MathUtils.randFloatSpread(3000),
+THREE.MathUtils.randFloatSpread(3000)
+);
+}
+geo.setAttribute("position",new THREE.Float32BufferAttribute(p,3));
+const stars=new THREE.Points(geo,new THREE.PointsMaterial({color:0x00f2ff,size:1}));
+scene.add(stars);
+cam.position.z=5;
+(function anim(){
+requestAnimationFrame(anim);
+stars.rotation.y+=0.0006;
+renderer.render(scene,cam);
+})();
+</script>
+
+</body>
+</html>�يف لمسة سحرية تجذب الجمهور." data-en="Music is the main engine of emotions in digital content creation, adding a magical touch that attracts the audience.">تعتبر الموسيقى المحرك الأساسي للمشاعر في عالم صناعة المحتوى الرقمي، حيث تضيف لمسة سحرية تجذب الجمهور.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="الحرية القانونية" data-en="Legal Freedom">الحرية القانونية</h3>
+        <p class="translatable" data-ar="نحن نؤمن بأن كل منشئ محتوى يستحق موسيقى عالية الجودة دون القلق من حقوق الطبع والنشر التي تعيق تطوره." data-en="We believe every creator deserves high-quality music without worrying about copyrights that hinder their growth.">نحن نؤمن بأن كل منشئ محتوى يستحق موسيقى عالية الجودة دون القلق من حقوق الطبع والنشر التي تعيق تطوره.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="ثقافة النوس" data-en="NCS Culture">ثقافة النوس</h3>
+        <p class="translatable" data-ar="استلهاماً من عمالقة مثل NCS، نسعى لبناء مجتمع يعتمد على المشاركة الصوتية المجانية والقوية في آن واحد." data-en="Inspired by giants like NCS, we aim to build a community based on free and powerful audio sharing at the same time.">استلهاماً من عمالقة مثل NCS، نسعى لبناء مجتمع يعتمد على المشاركة الصوتية المجانية والقوية في آن واحد.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="الإبداع الرقمي" data-en="Digital Creativity">الإبداع الرقمي</h3>
+        <p class="translatable" data-ar="إنتاج البياتات يتطلب دقة وهندسة صوتية متطورة لتصل إلى مستوى الاحترافية الذي يطمح له كل يوتيوبر." data-en="Producing beats requires precision and advanced audio engineering to reach the level of professionalism every YouTuber aims for.">إنتاج البياتات يتطلب دقة وهندسة صوتية متطورة لتصل إلى مستوى الاحترافية الذي يطمح له كل يوتيوبر.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="المستقبل البصري" data-en="Visual Future">المستقبل البصري</h3>
+        <p class="translatable" data-ar="دمج الأنميشن ثلاثي الأبعاد مع الإيقاعات القوية يخلق تجربة بصرية وسمعية غامرة تزيد من ولاء المتابعين." data-en="Merging 3D animation with strong beats creates an immersive visual and audio experience that increases follower loyalty.">دمج الأنميشن ثلاثي الأبعاد مع الإيقاعات القوية يخلق تجربة بصرية وسمعية غامرة تزيد من ولاء المتابعين.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="التواصل المباشر" data-en="Direct Contact">التواصل المباشر</h3>
+        <p class="translatable" data-ar="فريق YSN Beats متاح دائماً عبر البريد الإلكتروني Beatsysn@gmail.com لدعمكم في مشاريعكم القادمة." data-en="The YSN Beats team is always available via email Beatsysn@gmail.com to support you in your upcoming projects.">فريق YSN Beats متاح دائماً عبر البريد الإلكتروني Beatsysn@gmail.com لدعمكم في مشاريعكم القادمة.</p>
+    </div>
+</div>
+
+<footer class="ncs-footer">
+    <div class="ncs-visualizer">YSN</div>
+    <h2 class="translatable" data-ar="مستوحى من روح الحرية الصوتية" data-en="Inspired by Audio Freedom">مستوحى من روح الحرية الصوتية</h2>
+    <p>YouTube: @ysnbeats1 | Instagram: ysnbeats.1</p>
+    <div style="margin-top: 20px;">
+        <a href="mailto:Beatsysn@gmail.com" style="color: var(--primary);">Contact: Beatsysn@gmail.com</a>
+    </div>
+</footer>
+
+<script>
+    // نظام الترجمة
+    let lang = 'ar';
+    function toggleLang() {
+        lang = lang === 'ar' ? 'en' : 'ar';
+        document.querySelectorAll('.translatable').forEach(item => {
+            item.innerText = item.getAttribute(`data-${lang}`);
+        });
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+
+    // نظام الثيم
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    // محرك النجوم 3D
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('stars-canvas'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geo = new THREE.BufferGeometry();
+    const pos = [];
+    for(let i=0; i<4000; i++) {
+        pos.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
+    }
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color: 0x00f2ff, size: 1 });
+    const stars = new THREE.Points(geo, mat);
+    scene.add(stars);
+    camera.position.z = 5;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        stars.rotation.y += 0.0008;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+</body>
+</html>
