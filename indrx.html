@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YSN Beats | Official Music Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+:root{
+--primary:#00f2ff;
+--secondary:#7000ff;
+--accent:#ff007a;
+--bg:#050505;
+--text:#ffffff;
+--card:rgba(255,255,255,0.06);
+}
+[data-theme="light"]{
+--bg:#f4f4f4;
+--text:#111;
+--card:#ffffff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+font-family:'Cairo',sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+top:0;left:0;
+z-index:-1;
+}
+
+/* HEADER */
+header{
+position:sticky;
+top:0;
+z-index:1000;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:rgba(0,0,0,.85);
+backdrop-filter:blur(15px);
+border-bottom:2px solid var(--primary);
+}
+.logo{
+display:flex;
+align-items:center;
+gap:15px;
+}
+.logo img{
+width:55px;height:55px;
+border-radius:50%;
+border:2px solid var(--primary);
+box-shadow:0 0 15px var(--primary);
+}
+.logo span{
+font-family:'Orbitron';
+font-size:1.6rem;
+color:var(--primary);
+font-weight:900;
+}
+
+.actions{
+display:flex;
+align-items:center;
+gap:15px;
+}
+.counter{
+font-family:'Orbitron';
+color:#ff0000;
+border:1px solid #ff0000;
+padding:5px 15px;
+border-radius:6px;
+font-size:14px;
+}
+.subscribe{
+background:#ff0000;
+color:#fff;
+padding:10px 25px;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+animation:pulse 2s infinite;
+}
+
+/* CONTROLS */
+.controls{
+position:fixed;
+top:120px;
+left:15px;
+z-index:2000;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+.controls button{
+width:50px;height:50px;
+border-radius:50%;
+border:2px solid var(--primary);
+background:var(--bg);
+color:var(--primary);
+cursor:pointer;
+font-size:11px;
+box-shadow:0 0 12px var(--primary);
+}
+
+/* HERO */
+.hero{
+text-align:center;
+padding:120px 20px;
+}
+.hero h1{
+font-family:'Orbitron';
+font-size:2.8rem;
+margin-bottom:15px;
+}
+.hero p{
+opacity:.85;
+}
+
+/* VIDEOS */
+.section-title{
+text-align:center;
+margin:70px 0 30px;
+font-family:'Orbitron';
+font-size:2.4rem;
+}
+.video-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+padding:0 40px;
+}
+.video-card{
+background:var(--card);
+border-radius:20px;
+overflow:hidden;
+border:1px solid var(--secondary);
+transition:.4s;
+}
+.video-card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 30px rgba(0,242,255,.25);
+border-color:var(--primary);
+}
+.thumb{
+position:relative;
+aspect-ratio:16/9;
+}
+.thumb img{
+width:100%;height:100%;
+object-fit:cover;
+}
+.play{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.6);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+transition:.3s;
+}
+.video-card:hover .play{opacity:1}
+.play a{
+width:65px;height:65px;
+border-radius:50%;
+background:var(--primary);
+display:flex;
+justify-content:center;
+align-items:center;
+color:#000;
+font-weight:bold;
+text-decoration:none;
+}
+.video-card h3{
+padding:20px;
+font-size:1rem;
+}
+
+/* ARTICLES */
+.articles{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
+padding:60px 40px;
+}
+.article{
+background:var(--card);
+padding:30px;
+border-radius:18px;
+border-left:5px solid var(--accent);
+}
+.article h3{
+margin-bottom:15px;
+font-family:'Orbitron';
+}
+
+/* FOOTER */
+footer{
+background:#000;
+padding:80px 20px;
+text-align:center;
+border-top:2px solid var(--primary);
+}
+.visual{
+width:150px;height:150px;
+border-radius:50%;
+border:8px solid var(--primary);
+margin:0 auto 30px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Orbitron';
+font-size:1.8rem;
+animation:spin 15s linear infinite;
+box-shadow:0 0 25px var(--primary);
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
+
+@media(max-width:600px){
+.hero h1{font-size:2rem}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="controls">
+<button onclick="toggleLang()">EN/AR</button>
+<button onclick="toggleTheme()">MODE</button>
+</div>
+
+<header>
+<div class="logo">
+<img src="9778.png">
+<span>YSN BEATS</span>
+</div>
+<div class="actions">
+<div id="subs" class="counter">LOADING...</div>
+<a class="subscribe" href="https://youtube.com/@ysnbeats1" target="_blank">اشترك الآن</a>
+</div>
+</header>
+
+<section class="hero">
+<h1 class="trans" data-ar="مملكة الموسيقى الرقمية" data-en="Digital Music Kingdom">مملكة الموسيقى الرقمية</h1>
+<p class="trans" data-ar="إبداع بلا حدود وبييتس بدون حقوق" data-en="Limitless creativity & royalty-free beats">إبداع بلا حدود وبييتس بدون حقوق</p>
+</section>
+
+<h2 class="section-title">Latest Videos</h2>
+<div id="videos" class="video-grid"></div>
+
+<h2 class="section-title">Professional Articles</h2>
+<div class="articles">
+<div class="article"><h3>قوة الموسيقى</h3><p>الموسيقى ليست مجرد أصوات، بل لغة عالمية تؤثر على المشاعر والسلوك...</p></div>
+<div class="article"><h3>Digital Music Culture</h3><p>Digital platforms have transformed how music is created and consumed...</p></div>
+<div class="article"><h3>Royalty Free Beats</h3><p>Royalty-free music empowers creators to innovate without legal risks...</p></div>
+<div class="article"><h3>الإبداع الصوتي</h3><p>الإبداع في الموسيقى يبدأ بفكرة بسيطة تتحول إلى عمل فني متكامل...</p></div>
+<div class="article"><h3>Music & Content</h3><p>Modern content relies heavily on sound identity to build brand trust...</p></div>
+<div class="article"><h3>Future of Beats</h3><p>The future of beats is driven by AI, creativity, and digital freedom...</p></div>
+</div>
+
+<footer>
+<div class="visual">YSN</div>
+<p>YouTube: @ysnbeats1 | Instagram: ysnbeats.1</p>
+<p style="color:var(--primary)">Beatsysn@gmail.com</p>
+</footer>
+
+<script>
+const API_KEY="AIzaSyDN7UUf-XXCgCyPASXkBUqQjroKmy4gam4";
+const CHANNEL_ID="UCLHqTSpOB5fw4-EFr9Re4_Q";
+
+async function loadYT(){
+try{
+const s=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`);
+const sd=await s.json();
+subs.innerText=sd.items[0].statistics.subscriberCount+" SUBS";
+
+const v=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&id&order=date&maxResults=9&channelId=${CHANNEL_ID}&key=${API_KEY}`);
+const vd=await v.json();
+vd.items.forEach(i=>{
+if(i.id.videoId){
+videos.innerHTML+=`
+<div class="video-card">
+<div class="thumb">
+<img src="${i.snippet.thumbnails.high.url}">
+<div class="play"><a href="https://youtu.be/${i.id.videoId}" target="_blank">▶</a></div>
+</div>
+<h3>${i.snippet.title}</h3>
+</div>`;
+}
+});
+}catch(e){subs.innerText="—"}
+}
+loadYT();
+
+/* LANG + THEME */
+let lang="ar";
+function toggleLang(){
+lang=lang==="ar"?"en":"ar";
+document.querySelectorAll(".trans").forEach(t=>t.innerText=t.dataset[lang]);
+document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+}
+function toggleTheme(){
+document.documentElement.dataset.theme=
+document.documentElement.dataset.theme==="dark"?"light":"dark";
+}
+
+/* STARS */
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:stars,alpha:true});
+renderer.setSize(innerWidth,innerHeight);
+const geo=new THREE.BufferGeometry();
+const pos=[];
+for(let i=0;i<4000;i++)pos.push(
+THREE.MathUtils.randFloatSpread(2000),
+THREE.MathUtils.randFloatSpread(2000),
+THREE.MathUtils.randFloatSpread(2000)
+);
+geo.setAttribute("position",new THREE.Float32BufferAttribute(pos,3));
+const pts=new THREE.Points(geo,new THREE.PointsMaterial({color:0x00f2ff,size:1}));
+scene.add(pts);
+camera.position.z=5;
+(function animate(){
+requestAnimationFrame(animate);
+pts.rotation.y+=0.0008;
+renderer.render(scene,camera);
+})();
+</script>
+
+</body>
+</html> <div class="play-btn-overlay">
+                <a href="https://youtu.be/Gu3nOyM-Xxk" target="_blank" class="play-circle">PLAY</a>
+            </div>
+        </div>
+        <div style="padding: 20px;"><h3>Nekozilla ⚡ Electro</h3></div>
+    </div>
+    <div class="video-card">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/7BE_BIVos_E/maxresdefault.jpg" alt="Beat">
+            <div class="play-btn-overlay">
+                <a href="https://youtu.be/7BE_BIVos_E" target="_blank" class="play-circle">PLAY</a>
+            </div>
+        </div>
+        <div style="padding: 20px;"><h3>Heroes Tonight 🎧</h3></div>
+    </div>
+</div>
+
+<h2 class="section-title translatable" data-ar="المقالات الاحترافية" data-en="Professional Articles">المقالات الاحترافية</h2>
+<div class="articles-container">
+    <div class="article-card">
+        <h3 class="translatable" data-ar="قوة الموسيقى" data-en="Power of Music">قوة الموسيقى</h3>
+        <p class="translatable" data-ar="تعتبر الموسيقى المحرك الأساسي للمشاعر في عالم صناعة المحتوى الرقمي، حيث تضيف لمسة سحرية تجذب الجمهور." data-en="Music is the main engine of emotions in digital content creation, adding a magical touch that attracts the audience.">تعتبر الموسيقى المحرك الأساسي للمشاعر في عالم صناعة المحتوى الرقمي، حيث تضيف لمسة سحرية تجذب الجمهور.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="الحرية القانونية" data-en="Legal Freedom">الحرية القانونية</h3>
+        <p class="translatable" data-ar="نحن نؤمن بأن كل منشئ محتوى يستحق موسيقى عالية الجودة دون القلق من حقوق الطبع والنشر التي تعيق تطوره." data-en="We believe every creator deserves high-quality music without worrying about copyrights that hinder their growth.">نحن نؤمن بأن كل منشئ محتوى يستحق موسيقى عالية الجودة دون القلق من حقوق الطبع والنشر التي تعيق تطوره.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="ثقافة النوس" data-en="NCS Culture">ثقافة النوس</h3>
+        <p class="translatable" data-ar="استلهاماً من عمالقة مثل NCS، نسعى لبناء مجتمع يعتمد على المشاركة الصوتية المجانية والقوية في آن واحد." data-en="Inspired by giants like NCS, we aim to build a community based on free and powerful audio sharing at the same time.">استلهاماً من عمالقة مثل NCS، نسعى لبناء مجتمع يعتمد على المشاركة الصوتية المجانية والقوية في آن واحد.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="الإبداع الرقمي" data-en="Digital Creativity">الإبداع الرقمي</h3>
+        <p class="translatable" data-ar="إنتاج البياتات يتطلب دقة وهندسة صوتية متطورة لتصل إلى مستوى الاحترافية الذي يطمح له كل يوتيوبر." data-en="Producing beats requires precision and advanced audio engineering to reach the level of professionalism every YouTuber aims for.">إنتاج البياتات يتطلب دقة وهندسة صوتية متطورة لتصل إلى مستوى الاحترافية الذي يطمح له كل يوتيوبر.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="المستقبل البصري" data-en="Visual Future">المستقبل البصري</h3>
+        <p class="translatable" data-ar="دمج الأنميشن ثلاثي الأبعاد مع الإيقاعات القوية يخلق تجربة بصرية وسمعية غامرة تزيد من ولاء المتابعين." data-en="Merging 3D animation with strong beats creates an immersive visual and audio experience that increases follower loyalty.">دمج الأنميشن ثلاثي الأبعاد مع الإيقاعات القوية يخلق تجربة بصرية وسمعية غامرة تزيد من ولاء المتابعين.</p>
+    </div>
+    <div class="article-card">
+        <h3 class="translatable" data-ar="التواصل المباشر" data-en="Direct Contact">التواصل المباشر</h3>
+        <p class="translatable" data-ar="فريق YSN Beats متاح دائماً عبر البريد الإلكتروني Beatsysn@gmail.com لدعمكم في مشاريعكم القادمة." data-en="The YSN Beats team is always available via email Beatsysn@gmail.com to support you in your upcoming projects.">فريق YSN Beats متاح دائماً عبر البريد الإلكتروني Beatsysn@gmail.com لدعمكم في مشاريعكم القادمة.</p>
+    </div>
+</div>
+
+<footer class="ncs-footer">
+    <div class="ncs-visualizer">YSN</div>
+    <h2 class="translatable" data-ar="مستوحى من روح الحرية الصوتية" data-en="Inspired by Audio Freedom">مستوحى من روح الحرية الصوتية</h2>
+    <p>YouTube: @ysnbeats1 | Instagram: ysnbeats.1</p>
+    <div style="margin-top: 20px;">
+        <a href="mailto:Beatsysn@gmail.com" style="color: var(--primary);">Contact: Beatsysn@gmail.com</a>
+    </div>
+</footer>
+
+<script>
+    // نظام الترجمة
+    let lang = 'ar';
+    function toggleLang() {
+        lang = lang === 'ar' ? 'en' : 'ar';
+        document.querySelectorAll('.translatable').forEach(item => {
+            item.innerText = item.getAttribute(`data-${lang}`);
+        });
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+
+    // نظام الثيم
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    // محرك النجوم 3D
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('stars-canvas'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geo = new THREE.BufferGeometry();
+    const pos = [];
+    for(let i=0; i<4000; i++) {
+        pos.push(THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000), THREE.MathUtils.randFloatSpread(2000));
+    }
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color: 0x00f2ff, size: 1 });
+    const stars = new THREE.Points(geo, mat);
+    scene.add(stars);
+    camera.position.z = 5;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        stars.rotation.y += 0.0008;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+</body>
+</html>
