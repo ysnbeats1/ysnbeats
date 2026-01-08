@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | YSN Beats Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+    <style>
+        body { background-color: #050505; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            transition: all 0.5s ease;
+        }
+        .glass-card:hover {
+            border-color: #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+            transform: translateY(-10px);
+        }
+
+        .neon-glow-red { text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055; }
+        
+        .subscriber-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #00f2ff;
+            padding: 3px;
+            transition: transform 0.3s ease;
+        }
+        .glass-card:hover .subscriber-avatar {
+            transform: rotate(360deg);
+            border-color: #ff00ff;
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="fixed w-full z-50 px-8 py-4 flex justify-between items-center bg-black/50 backdrop-blur-md border-b border-white/10">
+        <div class="text-2xl font-black orbitron tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
+            YSN BEATS
+        </div>
+        <div class="hidden md:flex space-x-8 orbitron text-sm">
+            <a href="index.html" class="hover:text-cyan-400 transition">HOME</a>
+            <a href="stats.html" class="hover:text-cyan-400 transition">LIVE STATS</a>
+            <a href="articles.html" class="hover:text-cyan-400 transition">ARTICLES</a>
+            <a href="community.html" class="text-cyan-400 border-b-2 border-cyan-400 transition">COMMUNITY</a>
+        </div>
+        <a href="https://youtube.com/@ysnbeats1" target="_blank" class="bg-red-600 px-6 py-2 rounded-full font-bold text-xs orbitron hover:scale-105 transition">JOIN THE CLAN</a>
+    </nav>
+
+    <section class="pt-40 pb-20 px-8 text-center">
+        <h1 class="text-6xl md:text-8xl font-black orbitron mb-6">
+            THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-600 neon-glow-red">ELITE</span> COMMUNITY
+        </h1>
+        <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl">
+            Meet the creators and legends who power the <span class="text-white font-bold">YSN Beats</span> movement. 
+            Real people. Real creators. One unstoppable force.
+        </p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-8 pb-40">
+        <div id="community-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card p-8 animate-pulse shimmer h-64"></div>
+            <div class="glass-card p-8 animate-pulse shimmer h-64"></div>
+            <div class="glass-card p-8 animate-pulse shimmer h-64"></div>
+            <div class="glass-card p-8 animate-pulse shimmer h-64"></div>
+        </div>
+    </section>
+
+    <script>
+        // 1. THREE.JS Background (Matching Index)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.IcosahedronGeometry(15, 1);
+        const material = new THREE.MeshStandardMaterial({ color: 0x8800ff, wireframe: true });
+        const shape = new THREE.Mesh(geometry, material);
+        scene.add(shape);
+
+        const light = new THREE.PointLight(0xffffff, 1);
+        light.position.set(10, 10, 10);
+        scene.add(light, new THREE.AmbientLight(0x404040));
+        camera.position.z = 40;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            shape.rotation.x += 0.002;
+            shape.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 2. YouTube API - Fetch Public Subscribers
+        const API_KEY = 'AIzaSyDN7UUf-XXCgCyPASXkBUqQjroKmy4gam4';
+        const CHANNEL_ID = 'UCLHqTSpOB5fw4-EFr9Re4_Q';
+
+        async function fetchCommunity() {
+            try {
+                // Note: YouTube API only returns subscribers who have their "subscriptions" set to PUBLIC.
+                const response = await fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&key=${API_KEY}`);
+                const data = await response.json();
+                
+                const grid = document.getElementById('community-grid');
+                grid.innerHTML = '';
+
+                if (!data.items || data.items.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center p-20 glass-card">
+                            <i class="fas fa-users-slash text-6xl text-gray-600 mb-6"></i>
+                            <h3 class="orbitron text-2xl">Privacy Shields Active</h3>
+                            <p class="text-gray-500 mt-2">To appear here, ensure your subscriptions are set to 'Public' on YouTube.</p>
+                        </div>`;
+                    return;
+                }
+
+                data.items.forEach((item, index) => {
+                    const sub = item.snippet;
+                    const card = `
+                        <div class="glass-card p-8 flex flex-col items-center text-center group">
+                            <div class="relative mb-6">
+                                <img src="${sub.thumbnails.default.url}" class="subscriber-avatar" alt="${sub.title}">
+                                <div class="absolute -top-2 -right-2 bg-cyan-500 text-black text-[10px] font-bold px-2 py-1 rounded-full orbitron">VIP</div>
+                            </div>
+                            <h3 class="orbitron text-lg font-bold mb-2 group-hover:text-cyan-400 transition">${sub.title}</h3>
+                            <p class="text-xs text-gray-500 mb-6 line-clamp-2">${sub.description || 'Verified Member of YSN Beats Clan'}</p>
+                            <a href="https://youtube.com/channel/${sub.resourceId.channelId}" target="_blank" 
+                               class="w-full py-3 rounded-xl border border-white/10 text-xs orbitron hover:bg-white hover:text-black transition-all">
+                               VIEW CHANNEL
+                            </a>
+                        </div>
+                    `;
+                    grid.innerHTML += card;
+                });
+
+                // GSAP Entrance
+                gsap.from(".glass-card", {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "back.out(1.7)"
+                });
+
+            } catch (error) {
+                console.error("Error fetching community:", error);
+            }
+        }
+
+        window.onload = fetchCommunity;
+    </script>
+</body>
+</html>

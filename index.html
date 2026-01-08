@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YSN Beats | Immersive Music Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        
+        /* Neon Glow Effect */
+        .neon-text {
+            text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff, 0 0 40px #00f2ff;
+        }
+        .neon-border {
+            box-shadow: 0 0 15px #ff00ff, inset 0 0 15px #ff00ff;
+            border: 1px solid #ff00ff;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00f2ff;
+        }
+
+        /* Video Hover Overlay */
+        .video-container:hover .video-overlay {
+            opacity: 1;
+        }
+
+        /* 3D Canvas Container */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(#00f2ff, #ff00ff); border-radius: 10px; }
+
+        /* Animation Classes */
+        .reveal { opacity: 0; transform: translateY(30px); }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="fixed w-full z-50 px-8 py-4 flex justify-between items-center bg-black/50 backdrop-blur-md border-b border-white/10">
+        <div class="text-2xl font-black orbitron tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
+            YSN BEATS
+        </div>
+        <div class="hidden md:flex space-x-8 orbitron text-sm">
+            <a href="index.html" class="hover:text-cyan-400 transition">HOME</a>
+            <a href="stats.html" class="hover:text-cyan-400 transition">LIVE STATS</a>
+            <a href="articles.html" class="hover:text-cyan-400 transition">ARTICLES</a>
+            <a href="community.html" class="hover:text-cyan-400 transition">COMMUNITY</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="https://www.instagram.com/ysnbeats.1/" target="_blank" class="text-xl hover:text-pink-500"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/@ysnbeats1" target="_blank" class="bg-red-600 px-5 py-2 rounded-full font-bold text-xs orbitron hover:bg-red-700 transition">SUBSCRIBE</a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex flex-col items-center justify-center pt-20 px-4">
+        <div class="relative group" id="hero-logo-container">
+            <div class="w-40 h-40 md:w-56 md:h-56 rounded-full p-1 bg-gradient-to-tr from-cyan-500 via-purple-500 to-red-500 animate-spin-slow shadow-[0_0_50px_rgba(0,242,255,0.3)]">
+                <div class="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                    <img src="https://via.placeholder.com/200?text=YSN+Logo" alt="YSN Beats Logo" class="w-full h-full object-cover rounded-full" id="channel-logo">
+                </div>
+            </div>
+            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-black/80 border border-cyan-400 px-6 py-2 rounded-full backdrop-blur-md">
+                <p class="text-[10px] orbitron text-cyan-400 text-center uppercase tracking-widest">Live Subscribers</p>
+                <h2 id="subscriber-count" class="text-2xl font-bold orbitron text-white">Loading...</h2>
+            </div>
+        </div>
+
+        <div class="mt-16 text-center max-w-4xl">
+            <h1 class="text-5xl md:text-8xl font-black orbitron mb-6 reveal">
+                FEEL THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">SOUND.</span><br>
+                CREATE <span class="neon-text">FREELY.</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-10 reveal">
+                Welcome to <span class="text-white font-bold">YSN Beats</span>. Your ultimate destination for high-quality, 
+                <span class="text-cyan-400">copyright-free music</span>. Designed for creators, streamers, and dreamers.
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 reveal">
+                <a href="#videos" class="px-10 py-4 bg-white text-black font-bold orbitron rounded-full hover:bg-cyan-400 transition-all duration-300 transform hover:scale-110">
+                    EXPLORE BEATS
+                </a>
+                <a href="mailto:Beatsysn@gmail.com" class="px-10 py-4 border border-white/20 font-bold orbitron rounded-full hover:bg-white/10 transition-all">
+                    CONTACT ME
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-8 max-w-6xl mx-auto">
+        <div class="glass-card p-10 md:p-16 grid md:grid-cols-2 gap-12 items-center">
+            <div class="reveal">
+                <h3 class="text-3xl font-bold orbitron mb-6 text-cyan-400">Why YSN Beats?</h3>
+                <p class="text-gray-300 mb-6 leading-relaxed">
+                    Our music is crafted to match every mood and ensure the perfect atmosphere, from chill and emotional vibes to energetic and inspiring beats. Perfect for YouTube videos, Livestreams, Gaming, and Podcasts.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center space-x-3 text-sm">
+                        <i class="fas fa-check-circle text-purple-500"></i>
+                        <span>100% Safe-to-use / No Copyright Claims</span>
+                    </li>
+                    <li class="flex items-center space-x-3 text-sm">
+                        <i class="fas fa-check-circle text-purple-500"></i>
+                        <span>Professional Studio Grade Quality</span>
+                    </li>
+                    <li class="flex items-center space-x-3 text-sm">
+                        <i class="fas fa-check-circle text-purple-500"></i>
+                        <span>Regular Fresh Uploads</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="relative reveal">
+                <div class="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-purple-600 opacity-20 blur-2xl rounded-full"></div>
+                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800" alt="Music Production" class="relative rounded-2xl grayscale hover:grayscale-0 transition duration-700 shadow-2xl">
+            </div>
+        </div>
+    </section>
+
+    <section id="videos" class="py-20 px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-6xl font-black orbitron reveal">LATEST <span class="text-purple-500">RELEASES</span></h2>
+            <p class="text-gray-500 mt-4 reveal">Automatically synced with YSN Beats YouTube Channel</p>
+        </div>
+
+        <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div class="animate-pulse glass-card h-80"></div>
+            <div class="animate-pulse glass-card h-80"></div>
+            <div class="animate-pulse glass-card h-80"></div>
+        </div>
+    </section>
+
+    <footer class="py-10 border-t border-white/10 text-center">
+        <p class="orbitron text-xs text-gray-500 uppercase tracking-widest">© 2026 YSN Beats - Engineered for Creators</p>
+    </footer>
+
+    <script>
+        // 1. THREE.JS 3D BACKGROUND
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+        const material = new THREE.MeshStandardMaterial({ color: 0x00f2ff, wireframe: true });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+
+        const pointLight = new THREE.PointLight(0xffffff);
+        pointLight.position.set(20, 20, 20);
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(pointLight, ambientLight);
+
+        function addStar() {
+            const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+            const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+            const star = new THREE.Mesh(geometry, material);
+            const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+            star.position.set(x, y, z);
+            scene.add(star);
+        }
+        Array(200).fill().map(addStar);
+
+        camera.position.z = 30;
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.005;
+            torus.rotation.z += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        // 2. YOUTUBE API INTEGRATION
+        const API_KEY = 'AIzaSyDN7UUf-XXCgCyPASXkBUqQjroKmy4gam4'; // مفتاحك الخاص
+        const CHANNEL_ID = 'UCLHqTSpOB5fw4-EFr9Re4_Q';
+
+        async function fetchChannelData() {
+            try {
+                // Fetch Subscriber Count & Logo
+                const channelResponse = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics,snippet&id=${CHANNEL_ID}&key=${API_KEY}`);
+                const channelData = await channelResponse.json();
+                const stats = channelData.items[0].statistics;
+                const snippet = channelData.items[0].snippet;
+
+                document.getElementById('subscriber-count').innerText = Number(stats.subscriberCount).toLocaleString();
+                document.getElementById('channel-logo').src = snippet.thumbnails.high.url;
+
+                // Fetch Videos
+                const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=9`);
+                const videoData = await videoResponse.json();
+                
+                const videoGrid = document.getElementById('video-grid');
+                videoGrid.innerHTML = ''; // Clear skeleton
+
+                videoData.items.forEach(item => {
+                    const videoId = item.id.videoId;
+                    if(!videoId) return;
+
+                    const title = item.snippet.title;
+                    const thumb = item.snippet.thumbnails.high.url;
+                    const date = new Date(item.snippet.publishedAt).toLocaleDateString();
+
+                    const videoHTML = `
+                        <div class="glass-card overflow-hidden group video-container reveal">
+                            <div class="relative overflow-hidden">
+                                <img src="${thumb}" class="w-full h-48 object-cover transition duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black/60 opacity-0 video-overlay transition-opacity duration-300 flex items-center justify-center space-x-4">
+                                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="bg-red-600 p-3 rounded-full hover:scale-110 transition"><i class="fab fa-youtube text-xl"></i></a>
+                                    <button onclick="playVideo('${videoId}')" class="bg-cyan-500 p-3 rounded-full hover:scale-110 transition"><i class="fas fa-play text-xl"></i></button>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <span class="text-[10px] orbitron text-cyan-400 border border-cyan-400 px-2 py-1 rounded">NEW RELEASE</span>
+                                <h4 class="text-lg font-bold mt-4 mb-2 line-clamp-1">${title}</h4>
+                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
+                                    <span><i class="far fa-calendar-alt mr-2"></i>${date}</span>
+                                    <span class="text-white font-bold">YSN BEATS</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    videoGrid.innerHTML += videoHTML;
+                });
+
+                // Re-trigger scroll animations for new elements
+                initAnimations();
+
+            } catch (error) {
+                console.error("API Error:", error);
+                document.getElementById('subscriber-count').innerText = "OFFLINE";
+            }
+        }
+
+        // 3. GSAP SCROLL ANIMATIONS
+        function initAnimations() {
+            gsap.utils.toArray(".reveal").forEach((elem) => {
+                gsap.to(elem, {
+                    scrollTrigger: elem,
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: "power4.out",
+                    stagger: 0.2
+                });
+            });
+        }
+
+        function playVideo(id) {
+            // Simple logic to open a modal or play in place
+            window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
+        }
+
+        window.onload = () => {
+            fetchChannelData();
+            initAnimations();
+        };
+
+        // Resize Canvas
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
